@@ -1,5 +1,8 @@
 AllCops:
- TargetRubyVersion: 2.6
- Exclude:
-   - 'config/**/*'
-   - 'spec/spec_helper.rb'
+  TargetRubyVersion: 2.6
+  Exclude:
+    - 'config/**/*'
+    - 'spec/spec_helper.rb'
+
+Metrics/BlockLength:
+  ExcludedMethods: ['describe', 'context']

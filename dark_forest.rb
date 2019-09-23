@@ -4,7 +4,7 @@ require_relative 'lib/action/options'
 
 # main game file
 class DarkForest
-  attr_reader :name, :stranger, :check_action, :sword, :death
+  attr_reader :hero, :stranger, :check_action, :sword, :death
 
   def initialize
     @stranger = 'Melvin'
@@ -16,14 +16,14 @@ class DarkForest
   def call
     puts 'You are waken up by a strange guy. You notice you are below a tree, inside a dark forest.'
     puts "\"Hello, I'm #{stranger}. What is your name?\" - asks the guy."
-    @name = gets.chomp
+    @hero = gets.chomp
     part2
   end
 
   private
 
   def part2
-    puts "\n\"So, #{name}, I am here to take you out of this forest before it is too late. Get up and let's go.\""
+    puts "\n\"So, #{hero}, I am here to take you out of this forest before it is too late. Get up and let's go.\""
     puts "You stand up. #{stranger} starts walking. Before going after him, you realize there is a sword by your side, lying at the floor."
 
     while !@check_action
@@ -48,7 +48,7 @@ class DarkForest
   def part3
     puts "\nYou two arrive at a bridge. It seems to be very old, and it might crumble if under too much weight."
     puts "#{stranger} turns to you:"
-    puts "\"I think we shouldn't cross this bridge at the same time. What do you think, #{name}? What should we do?\""
+    puts "\"I think we shouldn't cross this bridge at the same time. What do you think, #{hero}? What should we do?\""
 
     while !@check_action
       puts "You can LET #{stranger} cross the bridge, you can CROSS the bridge, or you can BOTH cross at the same time."
@@ -81,7 +81,7 @@ class DarkForest
   def part4
     puts 'You arrive at an ancient construction. It looks like an altar for sacrifices.'
     puts "#{stranger} goes to the center of it, right before a table, and looks at you, with eyes wide open:"
-    puts "\"It's time for it, #{name}. You are the sacrifice tonight!!\""
+    puts "\"It's time for it, #{hero}. You are the sacrifice tonight!!\""
     puts "#{stranger} starts casting the grandest and final spell. It doesn't seem things will end up well for you."
 
     if sword
@@ -158,7 +158,7 @@ class DarkForest
   end
 
   def part_spell
-    puts "\n\"You should have taken that sword with you, #{name}. Now you cannot defeat me.\""
+    puts "\n\"You should have taken that sword with you, #{hero}. Now you cannot defeat me.\""
     puts "#{stranger} finishes his casting. The roots of the trees raise and catch you. You cannot move anymore."
     puts 'You are placed in the table.'
     puts 'The roots pierce through your chest. You start bleeding until your conscience subsides.'
@@ -167,11 +167,11 @@ class DarkForest
   def part_sword
     @sword = true
     puts "\nYou grab the sword, and equip it."
-    puts "\"So, you're a brave one, #{name}...\" - says #{stranger}, portraying an ironic smile."
+    puts "\"So, you're a brave one, #{hero}...\" - says #{stranger}, portraying an ironic smile."
   end
 
   def part_death
-    puts "\"Too bad, #{name}, too bad...\" - mumbles #{stranger}."
+    puts "\"Too bad, #{hero}, too bad...\" - mumbles #{stranger}."
     puts 'You have died.'
     puts 'GAME OVER'
   end
@@ -179,7 +179,7 @@ class DarkForest
   def part_conclusion
     puts 'The dark forest starts vanishing right before your eyes. On its place, you start seeing your town. This is the last thing you remember before waking up at the dark forest.'
     puts "You realize you were trapped inside an illusion of #{stranger}. Now you are free."
-    puts "Well done, #{name}."
+    puts "Well done, #{hero}."
   end
 end
 
