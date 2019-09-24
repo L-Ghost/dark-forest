@@ -16,6 +16,8 @@ module TextHandler
       access_block
     end
 
+    private
+
     def access_block
       block = yml.dig(TEXT_BLOCK, block_name)
       block.nil? ? [] : block.values
