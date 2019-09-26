@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'lib/action/options'
+
 # main game file
 class DarkForest
   attr_reader :name, :stranger, :check_action, :sword, :death
@@ -11,12 +13,14 @@ class DarkForest
     @sword = false
   end
 
-  def part1
+  def call
     puts 'You are waken up by a strange guy. You notice you are below a tree, inside a dark forest.'
     puts "\"Hello, I'm #{stranger}. What is your name?\" - asks the guy."
     @name = gets.chomp
     part2
   end
+
+  private
 
   def part2
     puts "\n\"So, #{name}, I am here to take you out of this forest before it is too late. Get up and let's go.\""
@@ -26,13 +30,13 @@ class DarkForest
       puts "You can grab the SWORD, or FOLLOW #{stranger}."
       action = gets.chomp.upcase
       case action
-      when 'SWORD'
+      when Action::Options::SWORD
         part_sword
         @check_action = true
-      when 'FOLLOW'
+      when Action::Options::FOLLOW
         @check_action = true
       else
-        puts 'INVALID ACTION'
+        puts Action::Options::INVALID_OPTION
       end
     end
 
@@ -50,19 +54,19 @@ class DarkForest
       puts "You can LET #{stranger} cross the bridge, you can CROSS the bridge, or you can BOTH cross at the same time."
       action = gets.chomp.upcase
       case action
-      when 'LET'
+      when Action::Options::LET
         puts "\n#{stranger} cross the bridge in front of you. Nothing happens. You cross the bridge afterwards."
         @check_action = true
-      when 'CROSS'
+      when Action::Options::CROSS
         part_cross
         @check_action = true
-      when 'BOTH'
+      when Action::Options::BOTH
         part_both
         @check_action = true
-      when 'ATTACK'
+      when Action::Options::ATTACK
         part_attack_s
       else
-        puts 'INVALID ACTION'
+        puts Action::Options::INVALID_OPTION
       end
     end
 
@@ -85,15 +89,15 @@ class DarkForest
         puts "You can use your sword to ATTACK #{stranger}, or you can STAND, waiting for the spell to be complete."
         action = gets.chomp.upcase
         case action
-        when 'ATTACK'
+        when Action::Options::ATTACK
           part_attack1
           @death = true
           @check_action = true
-        when 'STAND'
+        when Action::Options::STAND
           part_attack2
           @check_action = true
         else
-          puts 'INVALID ACTION'
+          puts Action::Options::INVALID_OPTION
         end
       end
     else
@@ -149,7 +153,7 @@ class DarkForest
       part_conclusion
       abort
     else
-      puts 'INVALID ACTION'
+      puts Action::Options::INVALID_OPTION
     end
   end
 
@@ -179,5 +183,4 @@ class DarkForest
   end
 end
 
-forest = DarkForest.new
-forest.part1
+DarkForest.new.call
