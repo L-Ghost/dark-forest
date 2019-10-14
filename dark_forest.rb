@@ -9,9 +9,7 @@ class DarkForest
 
   def initialize
     @stranger = 'Melvin'
-    @check_action = false
-    @death = false
-    @sword = false
+    @check_action = @death = @sword = false
   end
 
   def call
@@ -24,50 +22,35 @@ class DarkForest
 
   def part_presentation
     text('presentation', stranger: stranger, hero: hero)
-
-    while !@check_action
-      text('action_beginning', stranger: stranger)
-      action = gets.chomp.upcase
-      case action
-      when Action::Options::SWORD
-        part_sword
-        @check_action = true
-      when Action::Options::FOLLOW
-        @check_action = true
-      else
-        puts Action::Options::INVALID_OPTION
-      end
-    end
-
-    @check_action = false
+    action_beginning
     text('post_beginning', stranger: stranger)
     part_bridge
   end
 
+  def action_beginning
+    until check_action
+      text('action_beginning', stranger: stranger)
+      action = gets.chomp.upcase
+      verify_action_beginning(action)
+    end
+    @check_action = false
+  end
+
+  def verify_action_beginning(action)
+    case action
+    when Action::Options::SWORD
+      part_sword
+      @check_action = true
+    when Action::Options::FOLLOW
+      @check_action = true
+    else
+      puts Action::Options::INVALID_OPTION
+    end
+  end
+
   def part_bridge
     text('bridge', stranger: stranger, hero: hero)
-
-    while !@check_action
-      text('action_bridge', stranger: stranger)
-      action = gets.chomp.upcase
-      case action
-      when Action::Options::LET
-        text('let_cross', stranger: stranger)
-        @check_action = true
-      when Action::Options::CROSS
-        part_cross
-        @check_action = true
-      when Action::Options::BOTH
-        part_both
-        @check_action = true
-      when Action::Options::ATTACK
-        part_surprise_attack
-      else
-        puts Action::Options::INVALID_OPTION
-      end
-    end
-
-    @check_action = false
+    action_bridge
     if death
       part_death
     else
@@ -75,34 +58,70 @@ class DarkForest
     end
   end
 
+  def action_bridge
+    until check_action
+      text('action_bridge', stranger: stranger)
+      action = gets.chomp.upcase
+      verify_action_bridge(action)
+    end
+    @check_action = false
+  end
+
+  def verify_action_bridge(action)
+    case action
+    when Action::Options::LET
+      text('let_cross', stranger: stranger)
+      @check_action = true
+    when Action::Options::CROSS
+      part_cross
+      @check_action = true
+    when Action::Options::BOTH
+      part_both
+      @check_action = true
+    when Action::Options::ATTACK
+      part_surprise_attack
+    else
+      puts Action::Options::INVALID_OPTION
+    end
+  end
+
   def part_spell
     text('spell', stranger: stranger, hero: hero)
-
-    if sword
-      while !@check_action
-        text('action_spell', stranger: stranger)
-        action = gets.chomp.upcase
-        case action
-        when Action::Options::ATTACK
-          text('failed_attack', stranger: stranger)
-          @death = true
-          @check_action = true
-        when Action::Options::STAND
-          text('successfull_attack', stranger: stranger)
-          @check_action = true
-        else
-          puts Action::Options::INVALID_OPTION
-        end
-      end
-    else
-      text('spell_finished', stranger: stranger, hero: hero)
-      @death = true
-    end
-
+    action_spell
     if death
       part_death
     else
       part_conclusion
+    end
+  end
+
+  def action_spell
+    if sword
+      sub_action_spell
+    else
+      text('spell_finished', stranger: stranger, hero: hero)
+      @death = true
+    end
+  end
+
+  def sub_action_spell
+    until check_action
+      text('action_spell', stranger: stranger)
+      action = gets.chomp.upcase
+      verify_action_spell(action)
+    end
+  end
+
+  def verify_action_spell(action)
+    case action
+    when Action::Options::ATTACK
+      text('failed_attack', stranger: stranger)
+      @death = @check_action = true
+    when Action::Options::STAND
+      text('successfull_attack', stranger: stranger)
+      @check_action = true
+    else
+      puts Action::Options::INVALID_OPTION
     end
   end
 
