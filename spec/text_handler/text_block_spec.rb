@@ -7,11 +7,34 @@ describe TextHandler::TextBlock do
 
   context 'when receiving a text block index/name' do
     subject { described_class.new('introduction') }
+    let(:line) { 'You are waken up by a strange guy.' }
+    let(:second_line) { 'Hello, I\'m %<stranger>' }
+    let(:formatted_second_line) { 'Hello, I\'m Sauron' }
 
     it 'contains the block lines' do
       expect(lines.count).to eq(2)
-      expect(lines.first).to include('You are waken up by a strange guy.')
-      expect(lines.last).to include('Hello, I\'m %{stranger}')
+      expect(lines.first).to include(line)
+      expect(lines.last).to include(second_line)
+    end
+
+    context 'and calling the #print_content method' do
+      it 'prints the text to the screen' do
+        expect do
+          subject.print_content
+        end.to output(a_string_including(line, second_line)).to_stdout
+      end
+
+      context 'informing vars to be replaced' do
+        subject do
+          described_class.new('introduction', stranger: 'Sauron')
+        end
+
+        it 'prints text with replaced content' do
+          expect do
+            subject.print_content
+          end.to output(a_string_including(formatted_second_line)).to_stdout
+        end
+      end
     end
   end
 

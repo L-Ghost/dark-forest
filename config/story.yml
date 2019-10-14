@@ -1,4 +1,4 @@
 text_block:
   introduction:
     line_1: "You are waken up by a strange guy. You notice you are below a tree, inside a dark forest."
-    line_2: "\"Hello, I'm %{stranger}. What is your name?\" - asks the guy."
+    line_2: "\"Hello, I'm %<stranger>. What is your name?\" - asks the guy."
