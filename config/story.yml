@@ -2,3 +2,68 @@ text_block:
   introduction:
     line_1: "You are waken up by a strange guy. You notice you are below a tree, inside a dark forest."
     line_2: "\"Hello, I'm %<stranger>. What is your name?\" - asks the guy."
+  presentation:
+    line_1: "\"So, %<hero>, I am here to take you out of this forest before it is too late. Get up and let's go.\""
+    line_2: "You stand up. %<stranger> starts walking. Before going after him, you realize there is a sword by your side, lying at the floor."
+  action_beginning:
+    line: "You can grab the SWORD, or FOLLOW %<stranger>."
+  sword_grab:
+    line_1: "You grab the sword, and equip it."
+    line_2: "\"So, you're a brave one, %<hero>...\" - says %<stranger>, portraying an ironic smile."
+  post_beginning:
+    line: "You go after %<stranger>."
+  bridge:
+    line_1: "You two arrive at a bridge. It seems to be very old, and it might crumble if under too much weight."
+    line_2: "%<stranger> turns to you:"
+    line_3: "\"I think we shouldn't cross this bridge at the same time. What do you think, %<hero>? What should we do?\""
+  action_bridge:
+    line: "You can LET %<stranger> cross the bridge, you can CROSS the bridge, or you can BOTH cross at the same time."
+  let_cross:
+    line: "%<stranger> cross the bridge in front of you. Nothing happens. You cross the bridge afterwards."
+  cross:
+    line_1: "You start crossing the bridge. %<stranger> silently watches you."
+    line_2: "When you are in the middle of the bridge, %<stranger> starts laughing in an evil way."
+    line_3: "%<stranger> evokes a black spell, which lifts a heavy rock onto the bridge."
+    line_4: "The bridge crumbles, and you fall."
+  cross_both:
+    line_1: "You two cross the bridge at the same."
+    line_2: "Your weights combined are too much for the bridge. It starts crumbling."
+    line_3: "%<stranger> casts a spell which makes him float."
+    line_4: "You fall while watching %<stranger> levitating above you, until you hit the ground. The plants start moving to engulf and suffocate you."
+  surprise_attack:
+    line_1: "You allow %<stranger> to cross before you. So he goes. When he arrives at the other side, he keeps looking straight ahead."
+    line_2: "You slowly start crossing the bridge. When you are near the end of it, you prepare to attack."
+    line_3: "You attack %<stranger> right through his back with your sword."
+    line_4: "%<stranger> gasps as his lungs become filled with blood. He then falls to the floor."
+  spell:
+    line_1: "You arrive at an ancient construction. It looks like an altar for sacrifices."
+    line_2: "%<stranger> goes to the center of it, right before a table, and looks at you, with eyes wide open:"
+    line_3: "\"IT'S TIME FOR IT, %<hero>. YOU ARE THE SACRIFICE TONIGHT!!\""
+    line_4: "%<stranger> starts casting the grandest and final spell. It doesn't seem things will end up well for you."
+  action_spell:
+    line: "You can use your sword to ATTACK %<stranger>, or you can STAND, waiting for the spell to be complete."
+  failed_attack:
+    line_1: "You try to attack %<stranger>, but you are too nervous, and he is very aware of your actions."
+    line_2: "%<stranger> prepares another spell, which makes a tree hits you from behind, making you drop the sword."
+    line_3: "The tree branches capture you, and lift you, taking your body to the table. They finish with you by craving a hole in your chest."
+  successfull_attack:
+    line_1: "You stand still, waiting for %<stranger> to finish his casting. He starts to wonder why you look so confident."
+    line_2: "The spell is complete. The trees' roots start moving, trying to catch you."
+    line_3: "You swing your sword and cut them off."
+    line_4: "\"It can't be. You shouldn't be able to get rid of this.\" - says %<stranger>. He starts to get really worried, as you cut more and more roots."
+    line_5: "You start approaching %<stranger>. He looks at you and says:"
+    line_6: "\"I concede defeat.\""
+    line_7: "You attack with the sword. %<stranger> falls to the floor."
+  spell_finished:
+    line_1: "\"You should have taken that sword with you, %<hero>. Now you cannot defeat me.\""
+    line_2: "%<stranger> finishes his casting. The roots of the trees raise and catch you. You cannot move anymore."
+    line_3: "You are placed in the table."
+    line_4: "The roots pierce through your chest. You start bleeding until your conscience subsides."
+  conclusion:
+    line_1: "The dark forest starts vanishing right before your eyes. On its place, you start seeing your town. This is the last thing you remember before waking up at the dark forest."
+    line_2: "You realize you were trapped inside an illusion of %<stranger>. Now you are free."
+    line_3: "Well done, %<hero>."
+  game_over:
+    line_1: "\"Too bad, %<hero>, too bad...\" - mumbles %<stranger>."
+    line_2: "You have died."
+    line_3: "GAME OVER"

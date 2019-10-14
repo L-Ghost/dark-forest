@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require_relative 'lib/action/options'
+require_relative 'lib/text_handler/text_block'
 
 # main game file
 class DarkForest
-  attr_reader :name, :stranger, :check_action, :sword, :death
+  attr_reader :hero, :stranger, :check_action, :sword, :death
 
   def initialize
     @stranger = 'Melvin'
@@ -14,20 +15,18 @@ class DarkForest
   end
 
   def call
-    puts 'You are waken up by a strange guy. You notice you are below a tree, inside a dark forest.'
-    puts "\"Hello, I'm #{stranger}. What is your name?\" - asks the guy."
-    @name = gets.chomp
-    part2
+    text('introduction', stranger: stranger)
+    @hero = gets.chomp
+    part_presentation
   end
 
   private
 
-  def part2
-    puts "\n\"So, #{name}, I am here to take you out of this forest before it is too late. Get up and let's go.\""
-    puts "You stand up. #{stranger} starts walking. Before going after him, you realize there is a sword by your side, lying at the floor."
+  def part_presentation
+    text('presentation', stranger: stranger, hero: hero)
 
     while !@check_action
-      puts "You can grab the SWORD, or FOLLOW #{stranger}."
+      text('action_beginning', stranger: stranger)
       action = gets.chomp.upcase
       case action
       when Action::Options::SWORD
@@ -41,21 +40,19 @@ class DarkForest
     end
 
     @check_action = false
-    puts "You go after #{stranger}."
-    part3
+    text('post_beginning', stranger: stranger)
+    part_bridge
   end
 
-  def part3
-    puts "\nYou two arrive at a bridge. It seems to be very old, and it might crumble if under too much weight."
-    puts "#{stranger} turns to you:"
-    puts "\"I think we shouldn't cross this bridge at the same time. What do you think, #{name}? What should we do?\""
+  def part_bridge
+    text('bridge', stranger: stranger, hero: hero)
 
     while !@check_action
-      puts "You can LET #{stranger} cross the bridge, you can CROSS the bridge, or you can BOTH cross at the same time."
+      text('action_bridge', stranger: stranger)
       action = gets.chomp.upcase
       case action
       when Action::Options::LET
-        puts "\n#{stranger} cross the bridge in front of you. Nothing happens. You cross the bridge afterwards."
+        text('let_cross', stranger: stranger)
         @check_action = true
       when Action::Options::CROSS
         part_cross
@@ -64,7 +61,7 @@ class DarkForest
         part_both
         @check_action = true
       when Action::Options::ATTACK
-        part_attack_s
+        part_surprise_attack
       else
         puts Action::Options::INVALID_OPTION
       end
@@ -74,34 +71,31 @@ class DarkForest
     if death
       part_death
     else
-      part4
+      part_spell
     end
   end
 
-  def part4
-    puts 'You arrive at an ancient construction. It looks like an altar for sacrifices.'
-    puts "#{stranger} goes to the center of it, right before a table, and looks at you, with eyes wide open:"
-    puts "\"It's time for it, #{name}. You are the sacrifice tonight!!\""
-    puts "#{stranger} starts casting the grandest and final spell. It doesn't seem things will end up well for you."
+  def part_spell
+    text('spell', stranger: stranger, hero: hero)
 
     if sword
       while !@check_action
-        puts "You can use your sword to ATTACK #{stranger}, or you can STAND, waiting for the spell to be complete."
+        text('action_spell', stranger: stranger)
         action = gets.chomp.upcase
         case action
         when Action::Options::ATTACK
-          part_attack1
+          text('failed_attack', stranger: stranger)
           @death = true
           @check_action = true
         when Action::Options::STAND
-          part_attack2
+          text('successfull_attack', stranger: stranger)
           @check_action = true
         else
           puts Action::Options::INVALID_OPTION
         end
       end
     else
-      part_spell
+      text('spell_finished', stranger: stranger, hero: hero)
       @death = true
     end
 
@@ -113,43 +107,18 @@ class DarkForest
   end
 
   def part_cross
-    puts "\nYou start crossing the bridge. #{stranger} silently watches you."
-    puts "When you are in the middle of the bridge, #{stranger} starts laughing in an evil way."
-    puts "#{stranger} evokes a black spell, which lifts a heavy rock onto the bridge."
-    puts 'The bridge crumbles, and you fall.'
+    text('cross', stranger: stranger)
     @death = true
   end
 
   def part_both
-    puts "\nYou two cross the bridge at the same"
-    puts 'Your weights combined are too much for the bridge. It starts crumbling.'
-    puts "#{stranger} casts a spell which makes him float."
-    puts "You fall while watching #{stranger} levitating above you, until you hit the ground. The plants start moving to engulf and suffocate you."
+    text('cross_both', stranger: stranger)
     @death = true
   end
 
-  def part_attack1
-    puts "\nYou try to attack #{stranger}, but you are too nervous, and he is very aware of your actions."
-    puts "#{stranger} prepares another spell, which makes a tree hits you from behind, making you drop the sword."
-    puts 'The tree branches capture you, and lift you, taking your body to the table. They finish with you by craving a hole in your chest.'
-  end
-
-  def part_attack2
-    puts "\nYou stand still, waiting for #{stranger} to finish his casting. He starts to wonder why you look so confident."
-    puts 'The spell is complete. The trees\' roots start moving, trying to catch you.'
-    puts 'You swing your sword and cut them off.'
-    puts "\"It can't be. You shouldn't be able to get rid of this.\" - says #{stranger}. He starts to get really worried, as you cut more and more roots."
-    puts "You start approaching #{stranger}. He looks at you and says:"
-    puts '"I concede defeat."'
-    puts "You attack with the sword. #{stranger} falls to the floor."
-  end
-
-  def part_attack_s
+  def part_surprise_attack
     if sword
-      puts "\nYou allow #{stranger} to cross before you. So he goes. When he arrives at the other side, he keeps looking straight ahead."
-      puts 'You slowly start crossing the bridge. When you are near the end of it, you prepare to attack.'
-      puts "You attack #{stranger} right through his back with your sword."
-      puts "#{stranger} gasps as his lungs are filled with blood. He then falls to the floor."
+      text('surprise_attack', stranger: stranger)
       part_conclusion
       abort
     else
@@ -157,29 +126,21 @@ class DarkForest
     end
   end
 
-  def part_spell
-    puts "\n\"You should have taken that sword with you, #{name}. Now you cannot defeat me.\""
-    puts "#{stranger} finishes his casting. The roots of the trees raise and catch you. You cannot move anymore."
-    puts 'You are placed in the table.'
-    puts 'The roots pierce through your chest. You start bleeding until your conscience subsides.'
-  end
-
   def part_sword
     @sword = true
-    puts "\nYou grab the sword, and equip it."
-    puts "\"So, you're a brave one, #{name}...\" - says #{stranger}, portraying an ironic smile."
+    text('sword_grab', stranger: stranger, hero: hero)
   end
 
   def part_death
-    puts "\"Too bad, #{name}, too bad...\" - mumbles #{stranger}."
-    puts 'You have died.'
-    puts 'GAME OVER'
+    text('game_over', stranger: stranger, hero: hero)
   end
 
   def part_conclusion
-    puts 'The dark forest starts vanishing right before your eyes. On its place, you start seeing your town. This is the last thing you remember before waking up at the dark forest.'
-    puts "You realize you were trapped inside an illusion of #{stranger}. Now you are free."
-    puts "Well done, #{name}."
+    text('conclusion', stranger: stranger, hero: hero)
+  end
+
+  def text(block_name, vars)
+    TextHandler::TextBlock.new(block_name, vars).print_content
   end
 end
 
